@@ -1,0 +1,26 @@
+<div class="padded" align="center">
+    <h4 class="text-white padded">Login Now</h4>
+    <form ng-submit="verifyUser()" class="form">
+        <div class="col-lg-4 text-center">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Username</span>
+                </div>
+                <input type="text" name="username" class="form-control" placeholder=" admin" aria-label="Username" aria-describedby="username for login" ng-model="user.username">
+            </div>
+        </div>
+        <div class="col-lg-4 text-center">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"> Password </span>
+                </div>
+                <input type="password" name="password" class="form-control" placeholder="*****" aria-label="password" aria-describedby="password for login" ng-model="user.password">
+            </div>
+        </div>
+        <br>
+        <div class="clearfix"></div>
+        <div class="btn-container">
+            <button class="btn btn-primary">Click to SignIn</button>
+        </div>
+    </form>
+</div>
