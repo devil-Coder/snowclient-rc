@@ -9,7 +9,7 @@ app.config(function($routeProvider, $locationProvider) {
             templateUrl : '/ejs/login.ejs'
         })
         .when('/incidents/add', {
-            templateUrl : '/ejs/createincidents.ejs',
+            templateUrl : '/ejs/createincident.ejs',
             resolve: {
                 "check": function ($rootScope, $location) {
                     console.log($rootScope.loggedIn);
@@ -49,13 +49,12 @@ app.config(function($routeProvider, $locationProvider) {
         })
 
     // use the HTML5 History API
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode(true);
 });
 
 app.controller('mainCtrl',['$scope','$http','$location','$rootScope',function ($scope,$http,$location,$rootScope) {
-    $rootScope.loggedIn = false;
+    $rootScope.loggedIn = true;
     $scope.verifyUser =function(){
-        console.log($scope.user);
         if(user.username == 'admin' && user.password == 'admin') {
             $rootScope.loggedIn = true;
             $scope.response ={
@@ -71,12 +70,80 @@ app.controller('mainCtrl',['$scope','$http','$location','$rootScope',function ($
             };
         }
     }
-    $scope.getGithubData = function () {
-        console.log(config);
-        $http.get('https://api.github.com/users/devil-coder/repos',config).then(successCallback, errorCallback);
+    $scope.getAllIncidents = function () {
+        $http.get('https://dev45450.service-now.com/api/now/table/incident',config).then(successCallback, errorCallback);
         function successCallback(response) {
-            $scope.git = response.data;
-            console.log($scope.git);
+            $scope.incidents = response.data;
+            console.log($scope.incidents);
+        }
+        function errorCallback(error) {
+            console.log("Message could not be Obtained !" + error);
+        }
+    }
+
+    $scope.showIncidentDetail = function () {
+        var config = {
+            headers : {
+                'Accept' : 'application/json',
+                'Content-Type':'application/json',
+                'Authorization' : 'admin:me2@Servicenow'
+            }
+        }
+        $http.get('https://dev45450.service-now.com/api/now/table/incidents/'+$scope.incidentNumber,config).then(successCallback, errorCallback);
+        function successCallback(response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        }
+        function errorCallback(error) {
+            console.log("Message could not be Obtained !" + error);
+        }
+    }
+    $scope.addNewIncident = function () {
+        $http.post('https://dev45450.service-now.com/api/now/table/incident',$scope.newIncident).then(successCallback, errorCallback);
+        function successCallback(response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        }
+        function errorCallback(error) {
+            console.log("Message could not be Obtained !" + error);
+        }
+    }
+    $scope.updateIncident = function () {
+        // axios.get('https://dev45450.service-now.com/api/now/table/incident', config)
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+        $http.get('https://dev45450.service-now.com/api/now/table/incident',config).then(successCallback, errorCallback);
+        function successCallback(response) {
+            $scope.data = response.data;
+            console.log($scope.data);
+        }
+        function errorCallback(error) {
+            console.log("Message could not be Obtained !" + error);
+        }
+    }
+    $scope.deleteIncident = function () {
+        var config = {
+            headers : {
+                'Accept' : 'application/json',
+                'Content-Type':'application/json',
+                'Authorization' : 'admin:me2@Servicenow'
+            }
+        };
+        // axios.get('https://dev45450.service-now.com/api/now/table/incident', config)
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+        $http.get('https://dev45450.service-now.com/api/now/table/incident',config).then(successCallback, errorCallback);
+        function successCallback(response) {
+            $scope.data = response.data;
+            console.log($scope.data);
         }
         function errorCallback(error) {
             console.log("Message could not be Obtained !" + error);
