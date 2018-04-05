@@ -1,9 +1,9 @@
-<div class="container padded">
+<div class="container col-lg-5 padded" align="center">
     <form ng-submit="addNewIncident()" class="form">
-        <input type="text" placeholder="Short description" class="form-control" ng-model="newIncident.short_description">
-        <input type="text" placeholder="state" class="form-control" ng-model="newIncident.state">
-        <input type="text" placeholder="assigned to" class="form-control" ng-model="newIncident.assigned_to">
-        <input type="text" placeholder="assigned group" class="form-control" ng-model="newIncident.assignment_group">
+        <input type="text" placeholder="Short description" class="form-control" ng-model="newIncident.short_description"><br>
+        <input type="text" placeholder="State" class="form-control" ng-model="newIncident.state"><br>
+        <input type="text" placeholder="Assigned to" class="form-control" ng-model="newIncident.assigned_to"><br>
+        <input type="text" placeholder="Assigned group" class="form-control" ng-model="newIncident.assignment_group"><br>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 </div>

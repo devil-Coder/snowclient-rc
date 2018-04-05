@@ -44,6 +44,18 @@ app.config(function($routeProvider, $locationProvider) {
                 }
             }
         })
+        .when('/incident/:number', {
+            templateUrl : '/ejs/incidentdetails.ejs',
+            resolve: {
+                "check": function ($rootScope, $location) {
+                    console.log($rootScope.loggedIn);
+                    if (!$rootScope.loggedIn) {
+                        $location.path('/');
+                        $scope.message = "Your Session has expired ! Please Login Again.";
+                    }
+                }
+            }
+        })
         .otherwise({
             templateUrl : '/ejs/notfound.ejs'
         })
@@ -52,7 +64,7 @@ app.config(function($routeProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
 });
 
-app.controller('mainCtrl',['$scope','$http','$location','$rootScope',function ($scope,$http,$location,$rootScope) {
+app.controller('mainCtrl',['$scope','$http','$location','$rootScope','$routeParams',function ($scope,$http,$location,$rootScope,$routeParams) {
     $rootScope.loggedIn = true;
     $scope.verifyUser =function(){
         if(user.username == 'admin' && user.password == 'admin') {
@@ -71,6 +83,14 @@ app.controller('mainCtrl',['$scope','$http','$location','$rootScope',function ($
         }
     }
     $scope.getAllIncidents = function () {
+        var config = {
+            headers : {
+                'Access-Control-Allow-Origin' : '*',
+                'Accept' : 'application/json',
+                'Content-Type':'application/json',
+                'Authorization' : 'admin:me2@Servicenow'
+            }
+        }
         $http.get('https://dev45450.service-now.com/api/now/table/incident',config).then(successCallback, errorCallback);
         function successCallback(response) {
             $scope.incidents = response.data;
@@ -89,7 +109,7 @@ app.controller('mainCtrl',['$scope','$http','$location','$rootScope',function ($
                 'Authorization' : 'admin:me2@Servicenow'
             }
         }
-        $http.get('https://dev45450.service-now.com/api/now/table/incidents/'+$scope.incidentNumber,config).then(successCallback, errorCallback);
+        $http.get('https://dev45450.service-now.com/api/now/table/incidents/'+$routeParams.number,config).then(successCallback, errorCallback);
         function successCallback(response) {
             $scope.data = response.data;
             console.log($scope.data);
